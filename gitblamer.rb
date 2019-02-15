@@ -10,7 +10,7 @@ class Gitblamer < Formula
   # depends_on "cmake" => :build
 
   def install
-    bin.install 'bin/git-blamer'
+    bin.install 'bin/gitblamer'
   end
 
   test do
