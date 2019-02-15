@@ -4,7 +4,7 @@
 class Gitblamer < Formula
   desc ""
   homepage ""
-  url "https://github.com/Rasukarusan/homebrew-git-blamer.git"
+  url "https://github.com/Rasukarusan/homebrew-gitblamer.git"
   version "0.0.1"
   sha256 ""
   # depends_on "cmake" => :build
