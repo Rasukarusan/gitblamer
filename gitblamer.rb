@@ -6,7 +6,7 @@ class Gitblamer < Formula
   homepage ""
   url "https://github.com/Rasukarusan/homebrew-git-blamer.git"
   version "0.0.1"
-  sha1 "087db08ce1d70d14123d12c526cc0b1858b51fb6"
+  sha256 ""
   # depends_on "cmake" => :build
 
   def install
