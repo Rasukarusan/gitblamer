@@ -3,7 +3,7 @@
 # 概要
 指定したユーザーが編集したファイルを全て表示する
 
-![demo.gif](https://user-images.githubusercontent.com/17779386/52857893-e719cc00-316b-11e9-8557-ebf97d7b93ac.gif)
+![demo.gif](https://user-images.githubusercontent.com/17779386/52861971-5812b100-3177-11e9-902a-26ff79dc5e76.gif)
 
 # インストール
 
