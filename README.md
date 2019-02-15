@@ -5,12 +5,14 @@
 
 ![demo.gif](https://user-images.githubusercontent.com/17779386/52857893-e719cc00-316b-11e9-8557-ebf97d7b93ac.gif)
 
-# 使い方
+# インストール
 
-.bashrc or .zshrcに追加
-```sh
-alias git-blamer='sh ~/git-blamer.sh'
+```sh 
+$ brew tap rasukarusan/gitblamer
+$ brew install gitblamer
 ```
+
+# 使い方
 
 git管理下のディレクトリ(git管理下ならどこでも良い)で実行
 ```sh 
@@ -29,7 +31,7 @@ Total 4 file found!
  
 # オプション
 ```sh
-sh git-blamer.sh -l 追加行数
+git-blamer -l 追加行数
 ```
-`sh git-blamer.sh 20`の場合20行以上追加したファイルのみ出力されます。
+`git-blamer -l 20`の場合20行以上追加したファイルのみ出力されます。
 
