@@ -1,4 +1,4 @@
-# git-blamer
+# GitBlamer
 
 # 概要
 指定したユーザーが編集したファイルを全て表示する
@@ -16,7 +16,7 @@ $ brew install gitblamer
 
 git管理下のディレクトリ(git管理下ならどこでも良い)で実行
 ```sh 
-$ git-blamer
+$ gitblamer
 ```
 
 出力
@@ -31,7 +31,7 @@ Total 4 file found!
  
 # オプション
 ```sh
-git-blamer -l 追加行数
+gitblamer -l 追加行数
 ```
-`git-blamer -l 20`の場合20行以上追加したファイルのみ出力されます。
+`gitblamer -l 20`の場合20行以上追加したファイルのみ出力されます。
 
