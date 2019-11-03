@@ -35,3 +35,6 @@ gitblamer -l 追加行数
 ```
 `gitblamer -l 20`の場合20行以上追加したファイルのみ出力されます。
 
+## 記事
+
+[fzfでAuthorを指定して編集ファイル一覧を出力する](https://www.rasukarusan.com/entry/2019/02/15/215542)
