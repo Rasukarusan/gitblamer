@@ -19,6 +19,7 @@ jobs:
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
 
+      # 1つ前のtagからの差分を取得
       - name: Get commit summary
         id: get_commit_summary
         run: |
@@ -28,6 +29,7 @@ jobs:
           COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
           echo ::set-output name=COMMIT_SUMMARY::$COMMIT_SUMMARY
 
+      # リリースノートの作成
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -40,3 +42,15 @@ jobs:
             ${{ steps.get_commit_summary.outputs.COMMIT_SUMMARY }}
           draft: false
           prerelease: false
+
+      # バイナリファイルのアップロード
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gitblamer
+          asset_name: gitblamer
+          asset_content_type: application/octet-stream
