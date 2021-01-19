@@ -1,5 +1,5 @@
 name: Test dump context
-on: 
+on:
   push:
     branches:
       - master
@@ -9,6 +9,10 @@ jobs:
   one:
     runs-on: ubuntu-latest
     steps:
+      - name: test multiline
+        run: |
+          FOO="foofoo"
+          echo "foo ====> $FOO"
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
