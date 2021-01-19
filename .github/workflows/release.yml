@@ -27,7 +27,7 @@ jobs:
           echo ${{ steps.tag_version.outputs.previous_tag }}
           PREVIOUS_TAG=${{ steps.tag_version.outputs.previous_tag }}
           echo "PREVIOUS_TAG: ${PREVIOUS_TAG}"
-          COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" ${PREVIOUS_TAG}..${{ github.ref }})"
+          COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" v${PREVIOUS_TAG}..${{ github.ref }})"
           COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
           echo "::set-output name=COMMIT_SUMMARY::${COMMIT_SUMMARY}"
 
