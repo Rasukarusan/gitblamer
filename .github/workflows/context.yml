@@ -9,6 +9,34 @@ jobs:
   one:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: test git command1
+        run: |
+          FOO=$(git status)
+          echo "foo ====> $FOO"
+
+      - name: test git command2
+        run: |
+          FOO=$(git tag --sort=-creatordate)
+          echo "foo ====> $FOO"
+
+      - name: test git command3
+        run: |
+          FOO=$(sed -n 2p)
+          echo "foo ====> $FOO"
+
+      - name: test git command4
+        run: |
+          FOO=$(git tag --sort=-creatordate | sed -n 2p)
+          echo "foo ====> $FOO"
+
+      - name: test git command4
+        run: |
+          FOO=$(git tag --sort=-creatordate | sed -n 2p)
+          echo "$FOO"
+
       - name: test literal
         run: |
           FOO="foofoo"
