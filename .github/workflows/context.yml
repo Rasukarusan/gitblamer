@@ -9,9 +9,13 @@ jobs:
   one:
     runs-on: ubuntu-latest
     steps:
-      - name: test multiline
+      - name: test literal
         run: |
           FOO="foofoo"
+          echo "foo ====> $FOO"
+      - name: test command
+        run: |
+          FOO=$(date)
           echo "foo ====> $FOO"
       - name: Dump GitHub context
         env:
