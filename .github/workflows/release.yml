@@ -21,7 +21,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get commit summary2
+      - name: Get commit summary
         id: get_commit_summary
         run: |
           echo ${{ steps.tag_version.outputs.previous_tag }}

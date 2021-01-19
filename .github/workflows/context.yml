@@ -12,53 +12,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-     - name: Get Previous tag
-        id: previoustag
-        uses: WyriHaximus/github-action-get-previous-tag@v1
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get commit summary2
+      - name: Get commit summary
         id: get_commit_summary
         run: |
-          echo ${{ steps.previoustag.outputs.tag }}
-          PREVIOUS_TAG=${{ steps.previoustag.outputs.tag }}
+          echo ${{ steps.tag_version.outputs.previous_tag }}
+          PREVIOUS_TAG=${{ steps.tag_version.outputs.previous_tag }}
           echo "PREVIOUS_TAG: ${PREVIOUS_TAG}"
           COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" ${PREVIOUS_TAG}..${{ github.ref }})"
           COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
           echo "::set-output name=COMMIT_SUMMARY::${COMMIT_SUMMARY}"
 
-      - name: test git command1
-        run: |
-          FOO=$(git status)
-          echo "foo ====> $FOO"
-
-      - name: test git command2
-        run: |
-          FOO=$(git tag --sort=-creatordate)
-          echo "foo ====> $FOO"
-
-      - name: test git command3
-        run: |
-          FOO=$(sed -n 2p)
-          echo "foo ====> $FOO"
-
-      - name: test git command4
-        run: |
-          FOO=$(git tag --sort=-creatordate | sed -n 2p)
-          echo "foo ====> $FOO"
-
-      - name: test git command4
-        run: |
-          FOO=$(git tag --sort=-creatordate | sed -n 2p)
-          echo "$FOO"
-
-      - name: test literal
-        run: |
-          FOO="foofoo"
-          echo "foo ====> $FOO"
-      - name: test command
-        run: |
-          FOO=$(date)
-          echo "foo ====> $FOO"
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
