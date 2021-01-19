@@ -19,10 +19,10 @@ jobs:
         id: get_commit_summary
         run: |
           PREVIOUS_TAG=$(git tag --sort=-creatordate | sed -n 2p)
-          echo "PREVIOUS_TAG: $PREVIOUS_TAG"
-          COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" $PREVIOUS_TAG..${{ github.ref }})"
+          echo "PREVIOUS_TAG: ${PREVIOUS_TAG}"
+          COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" ${PREVIOUS_TAG}..${{ github.ref }})"
           COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
-          echo ::set-output name=COMMIT_SUMMARY::$COMMIT_SUMMARY
+          echo ::set-output name=COMMIT_SUMMARY::${COMMIT_SUMMARY}
 
       # リリースノートの作成
       - name: Create Release
