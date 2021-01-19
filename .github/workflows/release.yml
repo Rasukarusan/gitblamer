@@ -15,21 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v5.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get commit summary
-        id: get_commit_summary
-        run: |
-          echo ${{ steps.tag_version.outputs.previous_tag }}
-          PREVIOUS_TAG=${{ steps.tag_version.outputs.previous_tag }}
-          echo "PREVIOUS_TAG: ${PREVIOUS_TAG}"
-          COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" v${PREVIOUS_TAG}..${{ github.ref }})"
-          COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
-          echo "::set-output name=COMMIT_SUMMARY::${COMMIT_SUMMARY}"
+      - name: Build Changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # リリースノートの作成
       - name: Create Release
@@ -41,9 +31,8 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
-            ${{ steps.get_commit_summary.outputs.COMMIT_SUMMARY }}
             this is ready!
-            ${{ steps.tag_version.outputs.changelog }}
+            ${{steps.github_release.outputs.changelog}}
             this is ready!
           draft: false
           prerelease: false
