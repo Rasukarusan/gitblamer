@@ -22,7 +22,7 @@ jobs:
           echo "PREVIOUS_TAG: ${PREVIOUS_TAG}"
           COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" ${PREVIOUS_TAG}..${{ github.ref }})"
           COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
-          echo ::set-output name=COMMIT_SUMMARY::${COMMIT_SUMMARY}
+          echo "::set-output name=COMMIT_SUMMARY::${COMMIT_SUMMARY}"
 
       # リリースノートの作成
       - name: Create Release
@@ -35,6 +35,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           body: |
             ${{ steps.get_commit_summary.outputs.COMMIT_SUMMARY }}
+            this is ready!
           draft: false
           prerelease: false
 
