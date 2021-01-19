@@ -1,9 +1,10 @@
 name: Release
 
 # 新しいコミットがリポジトリにプッシュされるたびにこのワークフローを実行する
-on: push
-  tags:
-    - 'v*'
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
