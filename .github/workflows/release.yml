@@ -50,6 +50,10 @@ jobs:
           asset_path: ./gitblamer
           asset_name: gitblamer
           asset_content_type: application/octet-stream
+        run: |
+          SHA256=$(openssl dgst -sha256 ./gitblamer)
+          echo ::set-output name=SHA256::$SHA256
+          echo ::set-output name=BINARY::gitblamer
 
        # Formulaリポジトリの更新
       - name: Update Formula Repository
@@ -58,4 +62,4 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: Rasukarusan/homebrew-tap
           event-type: released
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha256": "${{ steps.upload-release-asset.outputs.SHA256 }}", "binary": "${{ steps.upload-release-asset.outputs.BINARY }}", "url": "${{ steps.create_release.outputs.upload_url }}"}'
