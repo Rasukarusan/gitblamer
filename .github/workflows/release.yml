@@ -1,6 +1,5 @@
 name: Release
 
-# 新しいコミットがリポジトリにプッシュされるたびにこのワークフローを実行する
 on:
   push:
     tags:
@@ -20,7 +19,6 @@ jobs:
         id: get_commit_summary
         run: |
           PREVIOUS_TAG=$(git tag --sort=-creatordate | sed -n 2p)
-          echo "PREVIOUS_TAG: $PREVIOUS_TAG"
           COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" $PREVIOUS_TAG..${{ github.ref }})"
           COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
           echo ::set-output name=COMMIT_SUMMARY::$COMMIT_SUMMARY
@@ -67,4 +65,12 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: Rasukarusan/homebrew-tap
           event-type: released
-          client-payload: '{"ref": "${{ github.ref }}", "sha256": "${{ steps.set_value_for_formula.outputs.SHA256 }}", "binary": "${{ steps.set_value_for_formula.outputs.BINARY }}", "url": "${{ steps.create_release.outputs.upload_url }}", "class": "${{ steps.set_value_for_formula.outputs.CLASS }}"}'
+          client-payload: '
+            {
+              "ref": "${{ github.ref }}",
+              "sha256": "${{ steps.set_value_for_formula.outputs.SHA256 }}",
+              "binary": "${{ steps.set_value_for_formula.outputs.BINARY }}",
+              "url": "${{ steps.create_release.outputs.upload_url }}",
+              "class": "${{ steps.set_value_for_formula.outputs.CLASS }}"
+            }
+          '
