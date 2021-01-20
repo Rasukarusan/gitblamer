@@ -3,8 +3,6 @@ name: Release
 # 新しいコミットがリポジトリにプッシュされるたびにこのワークフローを実行する
 on:
   push:
-    branches:
-      - master
     tags:
       - 'v*'
 jobs:
@@ -57,15 +55,15 @@ jobs:
       - name: Set value for formula
         id: set_value_for_formula
         run: |
-          SHA256=$(openssl dgst -sha256 ./gitblamer)
+          SHA256=$(openssl dgst -sha256 gitblamer | awk '{print $2}')
           echo ::set-output name=SHA256::$SHA256
           echo ::set-output name=BINARY::gitblamer
 
-       # Formulaリポジトリの更新
+       # Formulaリポジトリ更新(Formulaリポジトリのworkflowを発火)
       - name: Update Formula Repository
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: Rasukarusan/homebrew-tap
           event-type: released
-          client-payload: '{"ref": "${{ github.ref }}", "sha256": "${{ steps.set_value_for_formula.outputs.SHA256 }}", "binary": "${{ steps.set_value_for_formula.outputs.BINARY }}", "url": "${{ steps.create_release.outputs.upload_url }}"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha256": "${{ steps.set_value_for_formula.outputs.SHA256 }}", "binary": "${{ steps.set_value_for_formula.outputs.BINARY }}", "url": "${{ steps.create_release.outputs.upload_url }}", "desc": "{{ github.description }}"}'
