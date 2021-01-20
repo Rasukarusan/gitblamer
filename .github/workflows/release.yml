@@ -50,3 +50,12 @@ jobs:
           asset_path: ./gitblamer
           asset_name: gitblamer
           asset_content_type: application/octet-stream
+
+       # Formulaリポジトリの更新
+       - name: Update Formula Repository
+         uses: peter-evans/repository-dispatch@v1
+         with:
+           token: ${{ secrets.REPO_ACCESS_TOKEN }}
+           repository: Rasukarusan/homebrew-tap
+           event-type: released
+           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
