@@ -50,6 +50,10 @@ jobs:
           asset_path: ./gitblamer
           asset_name: gitblamer
           asset_content_type: application/octet-stream
+
+      # Formulaに値を渡す準備
+      - name: Set value for formula
+        id: set_value_for_formula
         run: |
           SHA256=$(openssl dgst -sha256 ./gitblamer)
           echo ::set-output name=SHA256::$SHA256
@@ -62,4 +66,4 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: Rasukarusan/homebrew-tap
           event-type: released
-          client-payload: '{"ref": "${{ github.ref }}", "sha256": "${{ steps.upload-release-asset.outputs.SHA256 }}", "binary": "${{ steps.upload-release-asset.outputs.BINARY }}", "url": "${{ steps.create_release.outputs.upload_url }}"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha256": "${{ steps.set_value_for_formula.outputs.SHA256 }}", "binary": "${{ steps.set_value_for_formula.outputs.BINARY }}", "url": "${{ steps.create_release.outputs.upload_url }}"}'
