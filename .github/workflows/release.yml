@@ -58,6 +58,7 @@ jobs:
           SHA256=$(openssl dgst -sha256 gitblamer | awk '{print $2}')
           echo ::set-output name=SHA256::$SHA256
           echo ::set-output name=BINARY::gitblamer
+          echo ::set-output name=CLASS::Gitblamer
 
        # Formulaリポジトリ更新(Formulaリポジトリのworkflowを発火)
       - name: Update Formula Repository
@@ -66,4 +67,4 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: Rasukarusan/homebrew-tap
           event-type: released
-          client-payload: '{"ref": "${{ github.ref }}", "sha256": "${{ steps.set_value_for_formula.outputs.SHA256 }}", "binary": "${{ steps.set_value_for_formula.outputs.BINARY }}", "url": "${{ steps.create_release.outputs.upload_url }}", "desc": "{{ github.description }}"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha256": "${{ steps.set_value_for_formula.outputs.SHA256 }}", "binary": "${{ steps.set_value_for_formula.outputs.BINARY }}", "url": "${{ steps.create_release.outputs.upload_url }}"}, "class": "{{ steps.set_value_for_formula.outputs.CLASS }}"'
