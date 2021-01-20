@@ -3,6 +3,8 @@ name: Release
 # 新しいコミットがリポジトリにプッシュされるたびにこのワークフローを実行する
 on:
   push:
+    branches:
+      - master
     tags:
       - 'v*'
 jobs:
