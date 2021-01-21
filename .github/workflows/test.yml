@@ -3,16 +3,23 @@ name: Test Workflow
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
       tags:
        description: 'Test scenario tags'
 jobs:
   printInputs:
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Tags: ${{ github.event.inputs.tags }}"
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # 1つ前のtagからの差分を取得
+      - name: Get commit summary
+        id: get_commit_summary
+        run: |
+          PREVIOUS_TAG=$(git tag --sort=-creatordate | sed -n 2p)
+          echo $PREVIOUS_TAG
+          COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" $PREVIOUS_TAG..${{ github.ref }})"
+          COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
+          echo ::set-output name=COMMIT_SUMMARY::$COMMIT_SUMMARY
