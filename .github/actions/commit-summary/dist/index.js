@@ -1570,10 +1570,12 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`new_tag: ${newTag} !`);
         const preTag = yield exec.exec('git tag --sort=-creatordate | sed -n 2p');
         console.log(`pre_tag: ${preTag} !`);
-        const summary = yield exec.exec(`git log --oneline --pretty=tformat:"%h %s" ${preTag}..${newTag}`);
-        console.log(summary);
+        const pre = yield exec.exec('git tag --sort=-creatordate');
+        console.log(pre);
         const summary2 = yield exec.exec(`git log --oneline --pretty=tformat:"%h %s" v1.2.0..v1.2.5`);
         console.log(summary2);
+        const summary = yield exec.exec(`git log --oneline --pretty=tformat:"%h %s" ${preTag}..${newTag}`);
+        console.log(summary);
         core.setOutput("summary", 'this is summary!!');
     }
     catch (error) {
