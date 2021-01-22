@@ -16,12 +16,10 @@ jobs:
 
       # 1つ前のtagからの差分を取得
       - name: Get commit summary
+        uses: ./.github/actions/commit-summary
         id: get_commit_summary
-        run: |
-          PREVIOUS_TAG=$(git tag --sort=-creatordate | sed -n 2p)
-          COMMIT_SUMMARY="$(git log --oneline --pretty=tformat:"%h %s" $PREVIOUS_TAG..${{ github.ref }})"
-          COMMIT_SUMMARY="${COMMIT_SUMMARY//$'\n'/'%0A'}"
-          echo ::set-output name=COMMIT_SUMMARY::$COMMIT_SUMMARY
+        with:
+          ref: ${{ github.ref }}
 
       # リリースノートの作成
       - name: Create Release
