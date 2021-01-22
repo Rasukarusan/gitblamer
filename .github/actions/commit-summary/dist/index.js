@@ -1561,16 +1561,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __nccwpck_require__(186);
 const exec = __nccwpck_require__(514);
-const exec_command = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield exec.exec('ls');
-    yield exec.exec('which git');
-    // do smt with bar
+const exec_command = (command) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield exec.exec(command);
 });
 try {
-    // `who-to-greet` input defined in action metadata file
     const newTag = core.getInput('ref');
     console.log(`new_tag: ${newTag} !`);
-    exec_command();
+    const preTag = exec_command('git tag --sort=-creatordate | sed -n 2p');
+    console.log(`pre_tag: ${preTag} !`);
+    const summary = exec_command(`git log --oneline --pretty=tformat:"%h %s" ${preTag}..${newTag}`);
+    console.log(summary);
+    core.setOutput("summary", 'this is summary!!');
 }
 catch (error) {
     core.setFailed(error.message);
