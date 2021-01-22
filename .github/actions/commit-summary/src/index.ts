@@ -1,15 +1,19 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
+import * as exec from '@actions/exec'
+
+const exec_command = async () => {
+  await exec.exec('ls');
+  await exec.exec('which git');
+  // do smt with bar
+};
 
 try {
   // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
+  const newTag = core.getInput('ref');
+  console.log(`new_tag: ${newTag} !`);
+  exec_command()
+  core.setOutput("summary", 'this is summary!!');
+
 } catch (error) {
   core.setFailed(error.message);
 }

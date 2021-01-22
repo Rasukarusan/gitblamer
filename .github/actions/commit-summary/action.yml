@@ -1,13 +1,13 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Get Commit Summary'
+description: 'Get commits from previrous tag to new tag'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  ref:
+    description: 'new tag'
     required: true
-    default: 'World'
+    default: 'please set ${{ github.ref }}'
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  summary:
+    description: 'commit summary'
 runs:
   using: 'node12'
   main: 'dist/index.js'

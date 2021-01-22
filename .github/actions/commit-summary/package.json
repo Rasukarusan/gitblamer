@@ -1,7 +1,7 @@
 {
   "name": "commit-summary",
   "version": "1.0.0",
-  "main": "dist/index.js", 
+  "main": "dist/index.js",
   "description": "",
   "scripts": {
     "build": "ncc build src/index.ts -o dist --license licenses.txt"
@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6",
+    "@actions/exec": "^1.0.4",
     "@actions/github": "^4.0.0"
   },
   "devDependencies": {
