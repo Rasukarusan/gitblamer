@@ -23,7 +23,7 @@ const main = async () => {
     const newTag = core.getInput('ref')
     console.log(`new_tag: ${newTag} !`)
 
-    const preTag = await execute('git tag --sort=-creatordate | sed -n 2p')
+    const preTag = await execute('/bin/bash -c "git tag --sort=-creatordate | sed -n 2p"')
     console.log(preTag)
     console.log(`pre_tag: ${preTag} !`)
 
