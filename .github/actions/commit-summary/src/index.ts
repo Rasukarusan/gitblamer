@@ -15,7 +15,7 @@ const exec_command = async (command: string) => {
       error += data.toString();
     }
   };
-  await exec.exec(command);
+  await exec.exec(command, null, options);
   return { output, error }
 
 }

@@ -1573,7 +1573,7 @@ const exec_command = (command) => __awaiter(void 0, void 0, void 0, function* ()
             error += data.toString();
         }
     };
-    yield exec.exec(command);
+    yield exec.exec(command, null, options);
     return { output, error };
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
