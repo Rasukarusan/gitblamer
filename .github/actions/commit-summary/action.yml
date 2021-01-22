@@ -1,0 +1,16 @@
+# action.yml
+name: 'Get Commit Summary'
+description: 'Get commits from previrous tag to new tag'
+inputs:
+  ref:
+    description: 'new tag'
+    required: true
+    default: 'please set ${{ github.ref }}'
+outputs:
+  commit_summary:
+    description: 'commit summary'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.ref }}
