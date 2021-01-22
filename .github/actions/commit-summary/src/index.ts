@@ -23,8 +23,8 @@ const main = async () => {
     const newTag = core.getInput('ref')
     console.log(`new_tag: ${newTag} !`)
 
-    const preTag = await execute('/bin/bash -c "git tag --sort=-creatordate | sed -n 2p"')
-    console.log(preTag)
+    // execはpipeを実行できないのでbash -cでコマンドを渡す形にしている
+    const preTag = await execute('/bin/bash -c "git tag --sort=-creatordate | sed -n 2p | tr -d "\n" "')
     console.log(`pre_tag: ${preTag} !`)
 
 
