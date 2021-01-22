@@ -1579,7 +1579,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newTag = core.getInput('ref');
         console.log(`new_tag: ${newTag} !`);
-        const preTag = yield execute('git tag --sort=-creatordate | sed -n 2p');
+        const preTag = yield execute('/bin/bash -c "git tag --sort=-creatordate | sed -n 2p"');
         console.log(preTag);
         console.log(`pre_tag: ${preTag} !`);
         const summary2 = yield execute(`git log --oneline --pretty=tformat:"%h %s" v1.2.0..v1.2.5`);
