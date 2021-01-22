@@ -1561,35 +1561,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __nccwpck_require__(186);
 const exec = __nccwpck_require__(514);
-const exec_command = (command) => __awaiter(void 0, void 0, void 0, function* () {
+const execute = (command) => __awaiter(void 0, void 0, void 0, function* () {
     let output = '';
-    let error = '';
     const options = {};
     options.listeners = {
         stdout: (data) => {
             output += data.toString();
         },
         stderr: (data) => {
-            error += data.toString();
+            console.error(data);
         }
     };
     yield exec.exec(command, null, options);
-    return { output, error };
+    return output;
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newTag = core.getInput('ref');
         console.log(`new_tag: ${newTag} !`);
-        const preTag = yield exec_command('git tag --sort=-creatordate');
+        const preTag = yield execute('git tag --sort=-creatordate | sed -n 2p');
         console.log(preTag);
         console.log(`pre_tag: ${preTag} !`);
-        const pre = yield exec.exec('git tag --sort=-creatordate');
-        console.log(pre);
-        const summary2 = yield exec.exec(`git log --oneline --pretty=tformat:"%h %s" v1.2.0..v1.2.5`);
+        const summary2 = yield execute(`git log --oneline --pretty=tformat:"%h %s" v1.2.0..v1.2.5`);
         console.log(summary2);
-        const summary = yield exec.exec(`git log --oneline --pretty=tformat:"%h %s" ${preTag}..${newTag}`);
+        const summary = yield execute(`git log --oneline --pretty=tformat:"%h %s" ${preTag}..${newTag}`);
         console.log(summary);
-        core.setOutput("summary", 'this is summary!!');
+        core.setOutput("summary", summary);
     }
     catch (error) {
         core.setFailed(error.message);
