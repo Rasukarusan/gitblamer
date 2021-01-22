@@ -1562,13 +1562,26 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __nccwpck_require__(186);
 const exec = __nccwpck_require__(514);
 const exec_command = (command) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield exec.exec(command);
+    let output = '';
+    let error = '';
+    const options = {};
+    options.listeners = {
+        stdout: (data) => {
+            output += data.toString();
+        },
+        stderr: (data) => {
+            error += data.toString();
+        }
+    };
+    yield exec.exec(command);
+    return { output, error };
 });
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newTag = core.getInput('ref');
         console.log(`new_tag: ${newTag} !`);
-        const preTag = yield exec.exec('git tag --sort=-creatordate | sed -n 2p');
+        const preTag = yield exec_command('git tag --sort=-creatordate');
+        console.log(preTag);
         console.log(`pre_tag: ${preTag} !`);
         const pre = yield exec.exec('git tag --sort=-creatordate');
         console.log(pre);
