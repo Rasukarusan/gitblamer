@@ -1,8 +1,23 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+import { ExecOptions } from '@actions/exec'
 
 const exec_command = async (command: string) => {
-  return await exec.exec(command);
+  let output = '';
+  let error = '';
+
+  const options: ExecOptions = {};
+  options.listeners = {
+    stdout: (data: Buffer) => {
+      output += data.toString();
+    },
+    stderr: (data: Buffer) => {
+      error += data.toString();
+    }
+  };
+  await exec.exec(command);
+  return { output, error }
+
 }
 
 const main = async () => {
@@ -10,7 +25,8 @@ const main = async () => {
     const newTag = core.getInput('ref');
     console.log(`new_tag: ${newTag} !`);
 
-    const preTag = await exec.exec('git tag --sort=-creatordate | sed -n 2p')
+    const preTag = await exec_command('git tag --sort=-creatordate')
+    console.log(preTag);
     console.log(`pre_tag: ${preTag} !`);
 
     const pre = await exec.exec('git tag --sort=-creatordate')
