@@ -17,16 +17,10 @@ jobs:
       # 1つ前のtagからの差分を取得
       - name: Get commit summary
         uses: ./.github/actions/commit-summary
+        # uses: Rasukarusan/commit-summary@v1
         id: get_commit_summary
         with:
           ref: ${{ github.ref }}
-
-      # 1つ前のtagからの差分を取得
-      # - name: Get commit summary
-      #   uses: Rasukarusan/commit-summary@v1
-      #   id: get_commit_summary
-      #   with:
-      #     ref: ${{ github.ref }}
 
       # リリースノートの作成
       - name: Create Release
